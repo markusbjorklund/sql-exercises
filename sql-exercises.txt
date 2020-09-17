@@ -110,7 +110,7 @@ GROUP BY C.name;
 83. SELECT name FROM Passengers GROUP BY cart_id HAVING COUNT(cart_id) = 1;
 84. SELECT name FROM Carts WHERE id NOT IN (SELECT cart_id FROM Passengers);
 85.
-86.
+86. SELECT P.name, COUNT(C.packet_id), COUNT(DISTINCT C.product_id) FROM Packets P LEFT JOIN Contents C ON C.packet_id = P.id GROUP BY P.id;
 87.
 88.
 89.
