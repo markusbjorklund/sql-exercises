@@ -1,0 +1,42 @@
+## 61-100
+
+61. SELECT U.username, COUNT(M.user_id) FROM Users U LEFT JOIN Memberships M ON U.id = m.user_id GROUP BY U.username;
+62. SELECT G.name, COUNT(M.group_id) FROM Groups G LEFT JOIN Memberships M ON G.id = M.group_id GROUP BY G.name;
+63. SELECT U.username FROM Users U, Memberships M WHERE U.id = M.user_id GROUP BY U.username HAVING COUNT(M.user_id) > 1;
+64. SELECT U.username FROM Users U WHERE id IN (SELECT user_id FROM Memberships WHERE group_id IN (SELECT group_id FROM Memberships WHERE user_id = 1));
+65. SELECT U.username FROM Users U WHERE id NOT IN (SELECT user_id FROM Memberships WHERE group_id IN (SELECT group_id FROM Memberships WHERE user_id = 1));
+66. SELECT word FROM Words ORDER BY word COLLATE NOCASE;
+67. SELECT name, price FROM Products WHERE price = (SELECT MIN(price) FROM Products) ORDER BY name LIMIT 1;
+68. SELECT A.name, COUNT(A.price) FROM Products A, Products B WHERE ABS(A.price - B.price) < 2 GROUP BY A.id; 
+69. SELECT COUNT(*) FROM Products A, Products B WHERE (A.price + B.price) = 10 AND A.id <= B.id;
+70. SELECT MIN(ABS(A.price - B.price)) FROM Products A, Products B WHERE A.id <> B.id;
+71. SELECT A.owner, SUM(COALESCE(change, 0)) FROM Accounts A LEFT JOIN Transactions T ON A.id = T.account_id GROUP BY A.owner;
+72. SELECT SUM(change) OVER (PARTITION BY account_id ORDER BY T.id) FROM Transactions T, Accounts A WHERE A.id = T.account_id AND A.owner = 'Uolevi'; 
+73.
+74. SELECT S.name, COUNT(DISTINCT T.exercise_id) FROM Students S , Exercises E LEFT JOIN Transmissions T ON E.id = T.exercise_id AND S.id = T.student_id AND T.state = 1 GROUP BY S.id;
+75.
+76. SELECT score FROM Results GROUP BY score ORDER BY COUNT(*) DESC, score LIMIT 1;
+77. SELECT score FROM Results ORDER BY score LIMIT 1 OFFSET (SELECT COUNT(*) FROM Results) / 2;
+78. SELECT score FROM (SELECT score FROM Results ORDER BY score LIMIT 1 OFFSET (SELECT (COUNT(*) - 1) / 2 FROM Results));
+79. SELECT C.name, COUNT(P.cart_id) FROM Carts C LEFT JOIN Passengers P ON C.id = P.cart_id GROUP BY C.name;
+80. SELECT C.name, (C.seats - COUNT(P.cart_id)) FROM Carts C LEFT JOIN Passengers P ON C.id = P.cart_id GROUP BY C.name;
+81. SELECT (SELECT SUM(Seats) FROM Carts) - (SELECT COUNT(*) FROM Passengers);
+82.
+83. SELECT name FROM Passengers GROUP BY cart_id HAVING COUNT(cart_id) = 1;
+84. SELECT name FROM Carts WHERE id NOT IN (SELECT cart_id FROM Passengers);
+85.
+86. SELECT P.name, COUNT(C.packet_id), COUNT(DISTINCT C.product_id) FROM Packets P LEFT JOIN Contents C ON C.packet_id = P.id GROUP BY P.id;
+87. SELECT P.name, P.price, COALESCE(SUM(D.price),0), COALESCE(SUM(D.price),0) - P.price FROM Packets P LEFT JOIN Contents C ON P.id = C.packet_id LEFT JOIN Products D ON D.id = C.product_id GROUP BY P.id;
+88. SELECT D.name, COUNT(DISTINCT C.packet_id) FROM Products D LEFT JOIN Contents C ON D.id = C.product_id LEFT JOIN Packets P ON D.id = C.packet_id GROUP BY D.id;
+89.
+90. SELECT ROW_NUMBER() OVER (ORDER BY name ASC), P.name, MAX(R.score) FROM Players P, Results R WHERE P.id = R.player_id GROUP BY P.name ORDER BY P.name;
+91. SELECT RANK() OVER (ORDER BY score DESC), P.name, MAX(R.score) FROM Players P, Results R WHERE P.id = R.player_id GROUP BY P.name ORDER BY score DESC, P.name;
+92.
+93.
+94.
+95.
+96.
+97.
+98.
+99.
+100.
